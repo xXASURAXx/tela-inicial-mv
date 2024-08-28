@@ -102,7 +102,7 @@
                 <span class="btn-text-one">Intranet</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('http://localhost/tela-inicial-mv/repositorio-documento/pesquisa_detalhada.php')">
+            <button class="btn" onclick="acessarPagina('http://10.0.18.91/tela-inicial-mv/repositorio-documento/pesquisa_detalhada.php')">
                 <span class="btn-text-one">Repositorio Documentos</span>
                 <span class="btn-text-two">Acesse</span>
             </button>

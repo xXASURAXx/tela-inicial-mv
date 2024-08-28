@@ -110,7 +110,7 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
     </style>
 </head>
 <body>
-    <h1>Pesquisa Detalhada de Documentos PDF</h1>
+    <h1>Pesquisa de Manuais PDF</h1>
     <div class="form-container">
         <form method="GET" action="">
             <input type="text" autocomplete="off" name="nome_documento" class="input" placeholder="Nome do Documento" value="<?php echo htmlspecialchars($nome_documento); ?>">
