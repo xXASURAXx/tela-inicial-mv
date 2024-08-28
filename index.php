@@ -1,3 +1,9 @@
+<?php
+include 'metodos.php';
+atualizar();
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -92,7 +98,7 @@
 </head>
 <body>
 
-    <h1>Bem-vindo</h1>
+    <h1><?php echo 'Bem-vindo, ' . $saudacao . ' ' . $inicioAno; ?></h1>
     <h2>Hospital Geral de Itapevi</h2>
     <p>Links uteis para acesso</p>
 
