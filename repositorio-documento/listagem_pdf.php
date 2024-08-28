@@ -44,7 +44,7 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo htmlspecialchars($documento['assunto_documento']); ?></td>
                 <td>
                     <a href="download.php?id=<?php echo $documento['id']; ?>">Baixar PDF</a> |
-                    <a href="listagem_pdf.php?delete_id=<?php echo $documento['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir este documento?');">Excluir</a>
+                    <a href="listagem_pdf.php?delete_id=<?php echo $documento['nome_documento']; ?>" onclick="return confirm('Tem certeza que deseja excluir este documento?');">Excluir</a>
                 </td>
             </tr>
         <?php endforeach; ?>
