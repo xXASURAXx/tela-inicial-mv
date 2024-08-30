@@ -122,9 +122,9 @@ atualizar();
                 <span class="btn-text-one">Medicsys</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('https://')">
-                <span class="btn-text-one">Manutenção</span>
-                <span class="btn-text-two">Manutenção</span>
+            <button class="btn" onclick="acessarPagina('http://10.0.18.91/tela-inicial-mv/ramais/ramais.php')">
+                <span class="btn-text-one">Lista de Ramais</span>
+                <span class="btn-text-two">Acesse</span>
             </button>
             <button class="btn" onclick="acessarPagina('https://')">
                 <span class="btn-text-one">Manutenção</span>
