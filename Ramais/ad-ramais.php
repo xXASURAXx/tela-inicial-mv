@@ -1,24 +1,19 @@
 <?php
-// Configurações de conexão ao banco de dados
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "documento";
 
-// Conectar ao banco de dados
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexão
 if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-// Variáveis para mensagens e estado de edição
 $message = "";
 $editMode = false;
 $editId = null;
 
-// Processar adição de ramais
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'add') {
     $ramal = $_POST['ramal'];
     $setor = $_POST['setor'];
@@ -37,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header("Location: ".$_SERVER['PHP_SELF']); // Redirecionar após adicionar
+            header("Location: ".$_SERVER['PHP_SELF']);
             exit();
         } else {
             $message = "<div class='alert alert-danger'>Erro ao adicionar o ramal.</div>";
@@ -49,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
     }
 }
 
-// Processar exclusão de ramais
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $sql = "DELETE FROM ramais WHERE id = ?";
@@ -58,7 +52,7 @@ if (isset($_GET['delete'])) {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        header("Location: ".$_SERVER['PHP_SELF']); // Redirecionar após exclusão
+        header("Location: ".$_SERVER['PHP_SELF']);
         exit();
     } else {
         $message = "<div class='alert alert-danger'>Erro ao excluir o ramal.</div>";
@@ -67,7 +61,6 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
-// Preparar para edição de ramal
 if (isset($_GET['edit'])) {
     $editMode = true;
     $editId = $_GET['edit'];
@@ -80,7 +73,6 @@ if (isset($_GET['edit'])) {
     $stmt->close();
 }
 
-// Processar edição de ramal
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'edit') {
     $ramal = $_POST['ramal'];
     $setor = $_POST['setor'];
@@ -100,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header("Location: ".$_SERVER['PHP_SELF']); // Redirecionar após atualização
+            header("Location: ".$_SERVER['PHP_SELF']);
             exit();
         } else {
             $message = "<div class='alert alert-danger'>Erro ao atualizar o ramal.</div>";
@@ -112,13 +104,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
     }
 }
 
-// Lógica de pesquisa
 $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
 }
 
-// Consulta para buscar todos os ramais
 $sql = "SELECT id, fixo, movel, setor, responsavel FROM ramais 
         WHERE setor LIKE ? OR fixo LIKE ? OR movel LIKE ? OR responsavel LIKE ?";
 $stmt = $conn->prepare($sql);
@@ -140,10 +130,8 @@ $result = $stmt->get_result();
 <div class="container mt-5">
     <h1>Administração de Ramais</h1>
     
-    <!-- Mensagens -->
     <?php echo $message; ?>
     
-    <!-- Formulário de Pesquisa -->
     <form method="GET" action="" class="mb-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Pesquisar ramal, setor ou responsável" value="<?php echo htmlspecialchars($search); ?>">
@@ -151,7 +139,6 @@ $result = $stmt->get_result();
         </div>
     </form>
 
-    <!-- Formulário para Adicionar ou Editar Ramal -->
     <form method="POST" action="">
         <input type="hidden" name="action" value="<?php echo $editMode ? 'edit' : 'add'; ?>">
         <?php if ($editMode): ?>
@@ -179,7 +166,6 @@ $result = $stmt->get_result();
         <button type="submit" class="btn btn-primary"><?php echo $editMode ? 'Atualizar' : 'Adicionar'; ?></button>
     </form>
 
-    <!-- Tabela de Ramais -->
     <table class="table table-bordered mt-5">
         <thead>
         <tr>

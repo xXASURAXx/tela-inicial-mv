@@ -53,17 +53,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Upload de PDF</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Centralizar o formulário de upload */
         .form-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 50px; /* Adicionar padding superior para subir os elementos */
+            padding-top: 50px;
             padding-bottom: 20px;
         }
 
-        /* Área de arrastar e soltar */
         .drop-zone {
             width: 100%;
             max-width: 400px;
@@ -95,12 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin: 0;
         }
 
-        /* Ocultar o input de arquivo padrão */
         #file {
             display: none;
         }
 
-        /* Centralizar o botão */
         .cssbuttons-io {
             display: flex;
             justify-content: center;
@@ -117,7 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="sistema_documento" class="input" placeholder="Sistema do Documento" required><br>
             <input type="text" name="assunto_documento" class="input" placeholder="Assunto do Documento" required><br>
 
-            <!-- Área de Drag-and-Drop -->
             <div class="drop-zone" id="dropZone">
                 <p>Arraste e solte o arquivo aqui ou clique para selecionar</p>
                 <input id="file" type="file" name="pdf_documento" accept="application/pdf" required>
@@ -139,11 +134,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script>
-        // Selecionar elementos
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('file');
 
-        // Adicionar eventos de drag-and-drop
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('dragover');
@@ -156,19 +149,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('dragover');
-            // Obter o arquivo que foi solto
             const file = e.dataTransfer.files[0];
-            // Adicionar o arquivo ao input de arquivo
             fileInput.files = e.dataTransfer.files;
-            dropZone.querySelector('p').textContent = file.name; // Atualizar o texto para mostrar o nome do arquivo
+            dropZone.querySelector('p').textContent = file.name;
         });
 
-        // Também permitir o clique na área de drag-and-drop
         dropZone.addEventListener('click', () => {
             fileInput.click();
         });
 
-        // Atualizar o texto da área de drag-and-drop quando o arquivo for selecionado manualmente
         fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
                 dropZone.querySelector('p').textContent = fileInput.files[0].name;

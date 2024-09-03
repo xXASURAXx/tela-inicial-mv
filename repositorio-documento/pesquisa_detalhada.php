@@ -1,21 +1,15 @@
 <?php
-// Incluir a conexão ao banco de dados
 include 'conexao.php';
 
-// Inicializar variáveis de pesquisa
 $nome_documento = isset($_GET['nome_documento']) ? $_GET['nome_documento'] : '';
 $sistema_documento = isset($_GET['sistema_documento']) ? $_GET['sistema_documento'] : '';
 $assunto_documento = isset($_GET['assunto_documento']) ? $_GET['assunto_documento'] : '';
 
-// Inicializar a variável que armazenará os resultados da pesquisa
 $documentos = [];
 
-// Verificar se pelo menos um campo foi preenchido para realizar a pesquisa
 if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_documento)) {
-    // Construir a consulta SQL com base nos critérios de pesquisa
     $query = "SELECT id, nome_documento, sistema_documento, assunto_documento FROM documento_pdf WHERE 1=1";
 
-    // Adicionar as condições de filtro com base nos campos preenchidos
     if (!empty($nome_documento)) {
         $query .= " AND nome_documento LIKE :nome_documento";
     }
@@ -28,7 +22,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
 
     $stmt = $pdo->prepare($query);
 
-    // Vincular os parâmetros de pesquisa com base nos campos preenchidos
     if (!empty($nome_documento)) {
         $stmt->bindValue(':nome_documento', "%$nome_documento%");
     }
@@ -39,7 +32,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
         $stmt->bindValue(':assunto_documento', "%$assunto_documento%");
     }
 
-    // Executar a consulta e buscar os resultados
     $stmt->execute();
     $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -50,7 +42,7 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa Detalhada de Documentos PDF</title>
+    <title>Repositorio de Documentos</title>
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -83,7 +75,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             gap: 10px;
         }
 
-        /* Botão de Pesquisa Estilizado */
         .cssbuttons-io {
             position: relative;
             font-family: inherit;
@@ -141,18 +132,17 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             transform: scale(0.95);
         }
 
-        /* Estilo dos botões de download e visualização */
         .button-content {
             position: relative;
             z-index: 1;
-            font-size: 12px; /* Diminuir o tamanho da fonte */
+            font-size: 12px;
         }
 
         .button {
             position: relative;
             overflow: hidden;
             height: 3rem;
-            padding: 0 2rem; /* Reduzir o padding para ajustar o tamanho */
+            padding: 0 2rem;
             border-radius: 1.5rem;
             background: #3d3a4e;
             background-size: 400%;
@@ -160,8 +150,8 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             border: none;
             cursor: pointer;
             margin-top: 15px;
-            box-shadow: none; /* Remover sombra */
-            text-decoration: none; /* Remover sublinhados */
+            box-shadow: none;
+            text-decoration: none;
             transform: translateY(-10px);
         }
 
@@ -187,7 +177,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             transition: all 0.475s;
         }
 
-        /* Estilo para os botões lado a lado */
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -197,19 +186,18 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
         
 
         .input:focus {
-            background-color: #e8e8e8; /* Cor uniforme ao focar */
+            background-color: #e8e8e8;
             transform: scale(1.05);
         }
 
-        /* Sugestões de autocomplete */
         .autocomplete-suggestions {
             position: absolute;
-            top: 55px; /* Ajuste a altura conforme necessário */
+            top: 55px;
             background-color: #fff;
             border: 1px solid #ccc;
             max-height: 150px;
             overflow-y: auto;
-            width: 100%; /* Ajustar a largura para coincidir com o campo */
+            width: 100%;
             z-index: 1000;
         }
 
@@ -223,21 +211,25 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             background-color: #fff;
         }
 
+        table {
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Pesquisa Detalhada de Documentos PDF</h1>
+    <h1>Repositorio de Documentos</h1>
 
     <div class="form-container">
     <form method="GET" action="" class="search-container">
         <input type="text" autocomplete="off" name="nome_documento" class="input" placeholder="Nome do Documento" value="<?php echo htmlspecialchars($nome_documento); ?>">
 
         <input type="text" autocomplete="off" id="sistema_documento" name="sistema_documento" class="input" placeholder="Sistema do Documento" value="<?php echo htmlspecialchars($sistema_documento); ?>">
-        <!-- Div para sugestões do campo "Sistema do Documento" -->
         <div id="sistema_suggestions" class="autocomplete-suggestions"></div>
 
         <input type="text" autocomplete="off" id="assunto_documento" name="assunto_documento" class="input" placeholder="Assunto do Documento" value="<?php echo htmlspecialchars($assunto_documento); ?>">
-        <!-- Div para sugestões do campo "Assunto do Documento" -->
         <div id="assunto_suggestions" class="autocomplete-suggestions"></div>
 
         <button class="cssbuttons-io" type="submit">
@@ -257,7 +249,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
 </div>
 
 
-    <!-- Exibir resultados apenas se houver documentos correspondentes -->
     <?php if (!empty($documentos)): ?>
     <table>
         <tr>
@@ -291,7 +282,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
     <?php endif; ?>
 
     <script>
-        // Função para buscar sugestões do sistema
         document.getElementById('sistema_documento').addEventListener('input', function() {
             var input = this.value;
             if (input.length > 1) {
@@ -316,7 +306,6 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             }
         });
 
-        // Função para buscar sugestões do assunto
         document.getElementById('assunto_documento').addEventListener('input', function() {
             var input = this.value;
             if (input.length > 1) {
