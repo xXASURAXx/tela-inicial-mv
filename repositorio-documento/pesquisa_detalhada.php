@@ -73,6 +73,7 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
             align-items: center;
             gap: 20px;
             margin-bottom: 20px;
+            position: relative;
         }
 
         .search-container {
@@ -203,48 +204,58 @@ if (!empty($nome_documento) || !empty($sistema_documento) || !empty($assunto_doc
         /* Sugestões de autocomplete */
         .autocomplete-suggestions {
             position: absolute;
+            top: 55px; /* Ajuste a altura conforme necessário */
             background-color: #fff;
             border: 1px solid #ccc;
             max-height: 150px;
             overflow-y: auto;
-            width: calc(100% - 22px); /* Largura igual à caixa de texto */
+            width: 100%; /* Ajustar a largura para coincidir com o campo */
             z-index: 1000;
         }
 
         .autocomplete-suggestion {
             padding: 10px;
             cursor: pointer;
+            font-size: 14px;
         }
 
         .autocomplete-suggestion:hover {
-            background-color: #f0f0f0;
+            background-color: #fff;
         }
+
     </style>
 </head>
 <body>
     <h1>Pesquisa Detalhada de Documentos PDF</h1>
 
     <div class="form-container">
-        <form method="GET" action="" class="search-container">
-            <input type="text" autocomplete="off" name="nome_documento" class="input" placeholder="Nome do Documento" value="<?php echo htmlspecialchars($nome_documento); ?>">
-            <input type="text" autocomplete="off" id="sistema_documento" name="sistema_documento" class="input" placeholder="Sistema do Documento" value="<?php echo htmlspecialchars($sistema_documento); ?>">
-            <input type="text" autocomplete="off" id="assunto_documento" name="assunto_documento" class="input" placeholder="Assunto do Documento" value="<?php echo htmlspecialchars($assunto_documento); ?>">
+    <form method="GET" action="" class="search-container">
+        <input type="text" autocomplete="off" name="nome_documento" class="input" placeholder="Nome do Documento" value="<?php echo htmlspecialchars($nome_documento); ?>">
 
-            <button class="cssbuttons-io" type="submit">
-                <span>
-                    Pesquisar
-                    <svg viewBox="0 0 19.9 19.7" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" class="svg-icon search-icon">
-                        <title>Search Icon</title>
-                        <desc id="desc">A magnifying glass icon.</desc>
-                        <g stroke="white" fill="none" class="search-path">
-                            <path d="M18.5 18.3l-5.4-5.4" stroke-linecap="square"></path>
-                            <circle r="7" cy="8" cx="8"></circle>
-                        </g>
-                    </svg>
-                </span>
-            </button>
-        </form>
-    </div>
+        <input type="text" autocomplete="off" id="sistema_documento" name="sistema_documento" class="input" placeholder="Sistema do Documento" value="<?php echo htmlspecialchars($sistema_documento); ?>">
+        <!-- Div para sugestões do campo "Sistema do Documento" -->
+        <div id="sistema_suggestions" class="autocomplete-suggestions"></div>
+
+        <input type="text" autocomplete="off" id="assunto_documento" name="assunto_documento" class="input" placeholder="Assunto do Documento" value="<?php echo htmlspecialchars($assunto_documento); ?>">
+        <!-- Div para sugestões do campo "Assunto do Documento" -->
+        <div id="assunto_suggestions" class="autocomplete-suggestions"></div>
+
+        <button class="cssbuttons-io" type="submit">
+            <span>
+                Pesquisar
+                <svg viewBox="0 0 19.9 19.7" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" class="svg-icon search-icon">
+                    <title>Search Icon</title>
+                    <desc id="desc">A magnifying glass icon.</desc>
+                    <g stroke="white" fill="none" class="search-path">
+                        <path d="M18.5 18.3l-5.4-5.4" stroke-linecap="square"></path>
+                        <circle r="7" cy="8" cx="8"></circle>
+                    </g>
+                </svg>
+            </span>
+        </button>
+    </form>
+</div>
+
 
     <!-- Exibir resultados apenas se houver documentos correspondentes -->
     <?php if (!empty($documentos)): ?>
