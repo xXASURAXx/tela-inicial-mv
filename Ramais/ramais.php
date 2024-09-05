@@ -1,25 +1,20 @@
 ﻿<?php
-// Configurações de conexão ao banco de dados
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "documento";
 
-// Conectar ao banco de dados
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexão
 if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-// Lógica de pesquisa
 $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
 }
 
-// Consulta para buscar todos os ramais
 $sql = "SELECT fixo, movel, setor, responsavel FROM ramais 
         WHERE setor LIKE ? OR fixo LIKE ? OR movel LIKE ? OR responsavel LIKE ?";
 $stmt = $conn->prepare($sql);
@@ -41,10 +36,8 @@ $result = $stmt->get_result();
 <div class="container mt-5">
     <h1>Lista de Ramais</h1>
     
-    <!-- Botão Home -->
-    <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="btn btn-secondary mb-3">Home</a>
+    <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="btn btn-secondary mb-3">Limpar</a>
 
-    <!-- Formulário de Pesquisa -->
     <form method="GET" action="" class="mb-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Pesquisar ramal, setor ou responsável" value="<?php echo htmlspecialchars($search); ?>">
@@ -52,7 +45,6 @@ $result = $stmt->get_result();
         </div>
     </form>
 
-    <!-- Tabela de Ramais -->
     <table class="table table-bordered">
         <thead>
         <tr>

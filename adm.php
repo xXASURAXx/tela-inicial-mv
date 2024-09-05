@@ -9,7 +9,7 @@ atualizar();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem vindos</title>
+    <title>Página de Administração</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -100,16 +100,16 @@ atualizar();
 
     <h1><?php echo 'Bem-vindo, ' . $saudacao . ' ' . $inicioAno; ?></h1>
     <h2>Hospital Geral de Itapevi</h2>
-    <p>Links uteis para acesso</p>
+    <p>Links para administração</p>
 
     <div class="button-container">
         <div class="column">
-            <button class="btn" onclick="acessarPagina('http://intranet')">
-                <span class="btn-text-one">Intranet</span>
+            <button class="btn" onclick="acessarPagina('ramais/ad-ramais.php')">
+                <span class="btn-text-one">Administrar Ramais</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('repositorio-documento/pesquisa_detalhada.php')">
-                <span class="btn-text-one">Repositorio Documentos</span>
+            <button class="btn" onclick="acessarPagina('repositorio-documento/listagem_pdf.php')">
+                <span class="btn-text-one">Administrar Repositorio</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
             <button class="btn" onclick="acessarPagina('https://')">
@@ -118,13 +118,13 @@ atualizar();
             </button>
         </div>
         <div class="column">
-            <button class="btn" onclick="acessarPagina('https://cejam.medicsys.com.br/Login')">
-                <span class="btn-text-one">Medicsys</span>
+            <button class="btn" onclick="acessarPagina('repositorio-documento/upload_pdf.php')">
+                <span class="btn-text-one">Upload Repositorio</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('ramais/ramais.php')">
-                <span class="btn-text-one">Lista de Ramais</span>
-                <span class="btn-text-two">Acesse</span>
+            <button class="btn" onclick="acessarPagina('')">
+                <span class="btn-text-one">Manutenção</span>
+                <span class="btn-text-two">Manutenção</span>
             </button>
             <button class="btn" onclick="acessarPagina('https://')">
                 <span class="btn-text-one">Manutenção</span>
