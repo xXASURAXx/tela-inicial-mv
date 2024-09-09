@@ -15,11 +15,11 @@ if (isset($_GET['search'])) {
     $search = $_GET['search'];
 }
 
-$sql = "SELECT fixo, movel, setor, responsavel FROM ramais 
-        WHERE setor LIKE ? OR fixo LIKE ? OR movel LIKE ? OR responsavel LIKE ?";
+$sql = "SELECT fixo, movel, andar, setor, responsavel FROM ramais 
+        WHERE andar LIKE ? OR setor LIKE ? OR fixo LIKE ? OR movel LIKE ? OR responsavel LIKE ?";
 $stmt = $conn->prepare($sql);
 $searchTerm = "%" . $search . "%";
-$stmt->bind_param("ssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+$stmt->bind_param("sssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -34,7 +34,12 @@ $result = $stmt->get_result();
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Lista de Ramais</h1>
+
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Lista de Ramais</h1>
+        <a href="login.php" class="btn btn-primary">Login</a> <!-- Botão de login no canto superior direito -->
+    </div>
     
     <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="btn btn-secondary mb-3">Limpar</a>
 
@@ -50,6 +55,7 @@ $result = $stmt->get_result();
         <tr>
             <th>Fixo</th>
             <th>Móvel</th>
+            <th>Andar</th>
             <th>Setor</th>
             <th>Responsável</th>
         </tr>
@@ -58,7 +64,7 @@ $result = $stmt->get_result();
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . htmlspecialchars($row['fixo']) . "</td><td>" . htmlspecialchars($row['movel']) . "</td><td>" . htmlspecialchars($row['setor']) . "</td><td>" . htmlspecialchars($row['responsavel']) . "</td></tr>";
+                echo "<tr><td>" . htmlspecialchars($row['fixo']) . "</td><td>" . htmlspecialchars($row['movel']) . "</td><td>" . htmlspecialchars($row['andar']) . "</td><td>" . htmlspecialchars($row['setor']) . "</td><td>" . htmlspecialchars($row['responsavel']) . "</td></tr>";
             }
         } else {
             echo "<tr><td colspan='4'>Nenhum ramal encontrado.</td></tr>";

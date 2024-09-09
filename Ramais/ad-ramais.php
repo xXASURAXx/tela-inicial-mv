@@ -1,4 +1,19 @@
 <?php
+session_start();
+
+// Verificar se o usuário está logado
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: login.php');
+    exit;
+}
+
+// Verificar se o username está definido na sessão
+if (isset($_SESSION['username'])) {
+    $usuario = $_SESSION['username']; // Nome do usuário logado
+} else {
+    $usuario = "Usuário desconhecido"; // Valor padrão se o nome de usuário não estiver disponível
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,34 +28,39 @@ if ($conn->connect_error) {
 $message = "";
 $editMode = false;
 $editId = null;
+$usuario = $_SESSION['username']; // Nome do usuário logado
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'add') {
-    $ramal = $_POST['ramal'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
+    $ramal_fixo = $_POST['fixo'];
+    $ramal_movel = $_POST['movel'];
+    $andar = $_POST['andar'];
     $setor = $_POST['setor'];
     $responsavel = $_POST['responsavel'];
-    $tipo = $_POST['tipo'];
 
-    if (!empty($ramal) && !empty($setor) && !empty($responsavel) && !empty($tipo)) {
-        if ($tipo == 'fixo') {
-            $sql = "INSERT INTO ramais (fixo, setor, responsavel) VALUES (?, ?, ?)";
-        } else {
-            $sql = "INSERT INTO ramais (movel, setor, responsavel) VALUES (?, ?, ?)";
+    if (!empty($ramal_fixo) || !empty($ramal_movel) && !empty($andar) && !empty($setor) && !empty($responsavel)) {
+        if ($_POST['action'] == 'add') {
+            $sql = "INSERT INTO ramais (fixo, movel, andar, setor, responsavel, usuario) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssss", $ramal_fixo, $ramal_movel, $andar, $setor, $responsavel, $usuario);
+        } else if ($_POST['action'] == 'edit') {
+            $id = $_POST['id'];
+            $sql = "UPDATE ramais SET fixo = ?, movel = ?, andar = ?, setor = ?, responsavel = ?, usuario = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssssi", $ramal_fixo, $ramal_movel, $andar, $setor, $responsavel, $usuario, $id);
         }
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $ramal, $setor, $responsavel);
+
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header("Location: ".$_SERVER['PHP_SELF']);
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {
-            $message = "<div class='alert alert-danger'>Erro ao adicionar o ramal.</div>";
+            $message = "<div class='alert alert-danger'>Erro ao salvar o ramal.</div>";
         }
 
         $stmt->close();
     } else {
-        $message = "<div class='alert alert-warning'>Por favor, preencha todos os campos.</div>";
+        $message = "<div class='alert alert-warning'>Por favor, preencha todos os campos obrigatórios.</div>";
     }
 }
 
@@ -52,7 +72,7 @@ if (isset($_GET['delete'])) {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        header("Location: ".$_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } else {
         $message = "<div class='alert alert-danger'>Erro ao excluir o ramal.</div>";
@@ -73,43 +93,12 @@ if (isset($_GET['edit'])) {
     $stmt->close();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'edit') {
-    $ramal = $_POST['ramal'];
-    $setor = $_POST['setor'];
-    $responsavel = $_POST['responsavel'];
-    $tipo = $_POST['tipo'];
-    $id = $_POST['id'];
-
-    if (!empty($ramal) && !empty($setor) && !empty($responsavel) && !empty($tipo)) {
-        if ($tipo == 'fixo') {
-            $sql = "UPDATE ramais SET fixo = ?, setor = ?, responsavel = ?, movel = NULL WHERE id = ?";
-        } else {
-            $sql = "UPDATE ramais SET movel = ?, setor = ?, responsavel = ?, fixo = NULL WHERE id = ?";
-        }
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $ramal, $setor, $responsavel, $id);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            header("Location: ".$_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            $message = "<div class='alert alert-danger'>Erro ao atualizar o ramal.</div>";
-        }
-
-        $stmt->close();
-    } else {
-        $message = "<div class='alert alert-warning'>Por favor, preencha todos os campos.</div>";
-    }
-}
-
 $search = "";
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
 }
 
-$sql = "SELECT id, fixo, movel, setor, responsavel FROM ramais 
+$sql = "SELECT id, fixo, movel, andar, setor, responsavel FROM ramais 
         WHERE setor LIKE ? OR fixo LIKE ? OR movel LIKE ? OR responsavel LIKE ?";
 $stmt = $conn->prepare($sql);
 $searchTerm = "%" . $search . "%";
@@ -145,8 +134,16 @@ $result = $stmt->get_result();
             <input type="hidden" name="id" value="<?php echo $editData['id']; ?>">
         <?php endif; ?>
         <div class="mb-3">
-            <label for="ramal" class="form-label">Ramal</label>
-            <input type="text" class="form-control" id="ramal" name="ramal" value="<?php echo $editMode ? htmlspecialchars($editData['fixo'] ?? $editData['movel']) : ''; ?>" required>
+            <label for="fixo" class="form-label">Ramal Fixo</label>
+            <input type="text" class="form-control" id="fixo" name="fixo" value="<?php echo $editMode ? htmlspecialchars($editData['fixo']) : ''; ?>">
+        </div>
+        <div class="mb-3">
+            <label for="movel" class="form-label">Ramal Móvel</label>
+            <input type="text" class="form-control" id="movel" name="movel" value="<?php echo $editMode ? htmlspecialchars($editData['movel']) : ''; ?>">
+        </div>
+        <div class="mb-3">
+            <label for="andar" class="form-label">Andar</label>
+            <input type="text" class="form-control" id="andar" name="andar" value="<?php echo $editMode ? htmlspecialchars($editData['andar']) : ''; ?>" required>
         </div>
         <div class="mb-3">
             <label for="setor" class="form-label">Setor</label>
@@ -156,13 +153,7 @@ $result = $stmt->get_result();
             <label for="responsavel" class="form-label">Responsável</label>
             <input type="text" class="form-control" id="responsavel" name="responsavel" value="<?php echo $editMode ? htmlspecialchars($editData['responsavel']) : ''; ?>" required>
         </div>
-        <div class="mb-3">
-            <label for="tipo" class="form-label">Tipo</label>
-            <select class="form-control" id="tipo" name="tipo" required>
-                <option value="fixo" <?php echo $editMode && !empty($editData['fixo']) ? 'selected' : ''; ?>>Fixo</option>
-                <option value="movel" <?php echo $editMode && !empty($editData['movel']) ? 'selected' : ''; ?>>Móvel</option>
-            </select>
-        </div>
+        
         <button type="submit" class="btn btn-primary"><?php echo $editMode ? 'Atualizar' : 'Adicionar'; ?></button>
     </form>
 
@@ -171,6 +162,7 @@ $result = $stmt->get_result();
         <tr>
             <th>Fixo</th>
             <th>Móvel</th>
+            <th>Andar</th>
             <th>Setor</th>
             <th>Responsável</th>
             <th>Ações</th>
@@ -183,6 +175,7 @@ $result = $stmt->get_result();
                 echo "<tr>
                         <td>" . htmlspecialchars($row['fixo']) . "</td>
                         <td>" . htmlspecialchars($row['movel']) . "</td>
+                        <td>" . htmlspecialchars($row['andar']) . "</td>
                         <td>" . htmlspecialchars($row['setor']) . "</td>
                         <td>" . htmlspecialchars($row['responsavel']) . "</td>
                         <td>
@@ -192,7 +185,7 @@ $result = $stmt->get_result();
                     </tr>";
             }
         } else {
-            echo "<tr><td colspan='5'>Nenhum ramal encontrado.</td></tr>";
+            echo "<tr><td colspan='6'>Nenhum ramal encontrado.</td></tr>";
         }
         ?>
         </tbody>

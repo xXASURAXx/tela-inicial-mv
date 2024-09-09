@@ -5,41 +5,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome_documento = $_POST['nome_documento'];
     $sistema_documento = $_POST['sistema_documento'];
     $assunto_documento = $_POST['assunto_documento'];
-    
+    $tabela = $_POST['tabela']; // Captura a tabela selecionada
+
     if (isset($_FILES['pdf_documento']) && $_FILES['pdf_documento']['error'] == 0) {
         $pdf_nome = $_FILES['pdf_documento']['name'];
         $pdf_tipo = $_FILES['pdf_documento']['type'];
         $pdf_tamanho = $_FILES['pdf_documento']['size'];
         $pdf_temporario = $_FILES['pdf_documento']['tmp_name'];
 
-        
         if ($pdf_tipo == 'application/pdf') {
-            
             $pdf_conteudo = file_get_contents($pdf_temporario);
 
             try {
-                
-                $stmt = $pdo->prepare("INSERT INTO documento_pdf (nome_documento, sistema_documento, assunto_documento, pdf_documento) VALUES (:nome_documento, :sistema_documento, :assunto_documento, :pdf_documento)");
+                // Query dinâmica com base na tabela selecionada
+                $stmt = $pdo->prepare("INSERT INTO $tabela (nome_documento, sistema_documento, assunto_documento, pdf_documento) VALUES (:nome_documento, :sistema_documento, :assunto_documento, :pdf_documento)");
                 $stmt->bindParam(':nome_documento', $nome_documento);
                 $stmt->bindParam(':sistema_documento', $sistema_documento);
                 $stmt->bindParam(':assunto_documento', $assunto_documento);
                 $stmt->bindParam(':pdf_documento', $pdf_conteudo, PDO::PARAM_LOB);
 
-                
                 if ($stmt->execute()) {
                     echo "Documento carregado com sucesso!";
                 } else {
                     echo "Erro ao carregar o documento.";
                 }
             } catch (PDOException $e) {
-                
                 echo "Erro ao inserir no banco de dados: " . $e->getMessage();
             }
         } else {
             echo "Por favor, carregue um arquivo PDF válido.";
         }
     } else {
-        
         echo "Erro ao enviar o arquivo. Código de erro: " . $_FILES['pdf_documento']['error'];
     }
 }
@@ -103,6 +99,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             align-items: center;
             margin: 0 auto;
         }
+
+        .floating-select {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -112,6 +112,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="nome_documento" class="input" placeholder="Nome do Documento" required><br>
             <input type="text" name="sistema_documento" class="input" placeholder="Sistema do Documento" required><br>
             <input type="text" name="assunto_documento" class="input" placeholder="Assunto do Documento" required><br>
+
+            <!-- Caixa flutuante para seleção da tabela -->
+            <div class="floating-select">
+                <label for="tabela"></label>
+                <select name="tabela" id="tabela" class="input" required>
+                    <option value="documento_pdf">POP Hospital</option>
+                    <option value="documento_mv">Documento MV</option>
+                    <option value="documento_release_notes">Release Notes</option>
+                </select>
+            </div>
 
             <div class="drop-zone" id="dropZone">
                 <p>Arraste e solte o arquivo aqui ou clique para selecionar</p>

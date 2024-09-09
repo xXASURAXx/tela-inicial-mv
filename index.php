@@ -108,28 +108,21 @@ atualizar();
                 <span class="btn-text-one">Intranet</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('repositorio-documento/pesquisa_detalhada.php')">
-                <span class="btn-text-one">Repositorio Documentos</span>
+            <button class="btn" onclick="acessarPagina('repositorio-documento/repositorio-mv.php')">
+                <span class="btn-text-one">Manuais MV</span>
                 <span class="btn-text-two">Acesse</span>
-            </button>
-            <button class="btn" onclick="acessarPagina('https://')">
-                <span class="btn-text-one">Manutenção</span>
-                <span class="btn-text-two">Manutenção</span>
             </button>
         </div>
         <div class="column">
-            <button class="btn" onclick="acessarPagina('https://cejam.medicsys.com.br/Login')">
-                <span class="btn-text-one">Medicsys</span>
+            <button class="btn" onclick="acessarPagina('repositorio-documento/repositorio-pop.php')">
+                <span class="btn-text-one">Repositorio Hospital</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('ramais/ramais.php')">
-                <span class="btn-text-one">Lista de Ramais</span>
+            <button class="btn" onclick="acessarPagina('repositorio-documento/release-notes.php')">
+                <span class="btn-text-one">Release Notes</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('https://')">
-                <span class="btn-text-one">Manutenção</span>
-                <span class="btn-text-two">Manutenção</span>
-            </button>
+
         </div>
     </div>
 
