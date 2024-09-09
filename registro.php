@@ -1,13 +1,18 @@
 <?php
 session_start();
 
-// Configurações de conexão com o banco de dados
+// Verifica se o usuário está logado e pertence ao setor de TI
+if (!isset($_SESSION['loggedin']) || $_SESSION['setor'] !== 'Tecnologia da Informação') {
+    // Redireciona para a página de login se não tiver acesso
+    header('Location: login.php');
+    exit;
+}
+
 $host = 'localhost';
 $dbname = 'documento';
 $user = 'root';
 $password = '';
 
-// Conexão com o banco de dados
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -17,13 +22,12 @@ try {
 
 $message = "";
 
-// Verificação do formulário de registro
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $setor = $_POST['setor'];
 
-    // Verificar se o usuário já existe
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
@@ -31,12 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->rowCount() > 0) {
         $message = "<p>Usuário já existe.</p>";
     } else {
-        // Inserir novo usuário
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO usuarios (name, username, password) VALUES (:name, :username, :password)");
+        $stmt = $pdo->prepare("INSERT INTO usuarios (name, username, password, setor) VALUES (:name, :username, :password, :setor)");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':setor', $setor);
 
         if ($stmt->execute()) {
             $message = "<p>Usuário criado com sucesso.</p>";
@@ -160,6 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input required class="input" type="text" id="name" name="name" placeholder="Nome" />
             <input required class="input" type="text" id="username" name="username" placeholder="Usuário" />
             <input required class="input" type="password" id="password" name="password" placeholder="Senha" />
+            <input required class="input" type="text" id="setor" name="setor" placeholder="setor" />
             <input class="login-button" type="submit" value="Registrar" />
         </form>
 

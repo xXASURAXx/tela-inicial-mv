@@ -52,7 +52,7 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px; /* Ajuste de espaço entre os elementos */
+            gap: 10px;
             margin-bottom: 20px;
 
         }
@@ -60,7 +60,7 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .search-container {
             display: flex;
             align-items: center;
-            gap: 10px; /* Espaço entre a caixa de texto e os botões */
+            gap: 10px;
         }
 
         .cssbuttons-io {
@@ -185,28 +185,28 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 15px;
             overflow: hidden;
             margin-top: 20px;
-            width: 80%; /* Centraliza a tabela e ajusta a largura */
+            width: 80%;
         }
 
         table, th, td {
             border: 1px solid #ddd;
-            text-align: center; /* Centraliza o conteúdo da tabela */
+            text-align: center;
             padding: 10px;
         }
 
         th, td {
-            vertical-align: middle; /* Alinha o conteúdo verticalmente ao meio */
+            vertical-align: middle;
         }
 
         td.action-buttons {
-            white-space: nowrap; /* Evita quebra de linha nas células de ação */
+            white-space: nowrap;
         }
 
         .action-buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
-            align-items: center; /* Centraliza verticalmente os botões */
+            align-items: center;
         }
 
         .autocomplete-suggestions {
@@ -333,7 +333,7 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             div.classList.add('autocomplete-suggestion');
                             div.addEventListener('click', function() {
                                 document.getElementById('assunto_documento').value = suggestion;
-                                suggestionsContainer.innerHTML = ''; // Limpar sugestões após a seleção
+                                suggestionsContainer.innerHTML = '';
                             });
                             suggestionsContainer.appendChild(div);
                         });

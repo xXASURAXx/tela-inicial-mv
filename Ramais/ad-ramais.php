@@ -1,17 +1,15 @@
 <?php
 session_start();
 
-// Verificar se o usuário está logado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php');
     exit;
 }
 
-// Verificar se o username está definido na sessão
 if (isset($_SESSION['username'])) {
-    $usuario = $_SESSION['username']; // Nome do usuário logado
+    $usuario = $_SESSION['username'];
 } else {
-    $usuario = "Usuário desconhecido"; // Valor padrão se o nome de usuário não estiver disponível
+    $usuario = "Usuário desconhecido";
 }
 
 $servername = "localhost";
@@ -28,7 +26,7 @@ if ($conn->connect_error) {
 $message = "";
 $editMode = false;
 $editId = null;
-$usuario = $_SESSION['username']; // Nome do usuário logado
+$usuario = $_SESSION['username'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     $ramal_fixo = $_POST['fixo'];

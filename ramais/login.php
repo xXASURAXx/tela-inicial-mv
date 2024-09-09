@@ -17,24 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Consulta ao banco de dados para verificar o usuário
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verificar se o usuário existe e se a senha é válida
     if ($user && password_verify($password, $user['password'])) {
-        // Armazenar informações de sessão
         $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;  // Armazenar o nome do usuário na sessão
+        $_SESSION['username'] = $username;
 
-        // Redirecionar para a página ad-ramais.php
         header('Location: ad-ramais.php');
         exit;
     } else {
-        // Exibir mensagem de erro
         echo "<p>Usuário ou senha incorretos.</p>";
     }
 }
@@ -47,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* Estilos do formulário de login */
         body {
           display: flex;
           justify-content: center;

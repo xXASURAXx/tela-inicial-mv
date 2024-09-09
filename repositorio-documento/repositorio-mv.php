@@ -33,28 +33,28 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 15px;
             overflow: hidden;
             margin-top: 20px;
-            width: 80%; /* Centraliza a tabela e ajusta a largura */
+            width: 80%;
         }
 
         table, th, td {
             border: 1px solid #ddd;
-            text-align: center; /* Centraliza o conteúdo da tabela */
+            text-align: center;
             padding: 10px;
         }
 
         th, td {
-            vertical-align: middle; /* Alinha o conteúdo verticalmente ao meio */
+            vertical-align: middle;
         }
 
         td.action-buttons {
-            white-space: nowrap; /* Evita quebra de linha nas células de ação */
+            white-space: nowrap;
         }
 
         .action-buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
-            align-items: center; /* Centraliza verticalmente os botões */
+            align-items: center;
         }
 
         .button-content {

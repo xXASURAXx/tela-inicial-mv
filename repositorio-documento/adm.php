@@ -1,5 +1,13 @@
 <?php
-include 'metodos.php';
+session_start();
+
+// Verifica se o usuário está logado e pertence ao setor de TI
+if (!isset($_SESSION['loggedin']) || $_SESSION['setor'] !== 'Tecnologia da Informação') {
+    // Redireciona para a página de login se não tiver acesso
+    header('Location: login.php');
+    exit;
+}
+include '../metodos.php';
 atualizar();
 
 ?>
@@ -104,27 +112,27 @@ atualizar();
 
     <div class="button-container">
         <div class="column">
-            <button class="btn" onclick="acessarPagina('ramais/ad-ramais.php')">
+            <button class="btn" onclick="acessarPagina('../ramais/ad-ramais.php')">
                 <span class="btn-text-one">Administrar Ramais</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('repositorio-documento/listagem_pdf.php')">
+            <button class="btn" onclick="acessarPagina('adm-pdf.php')">
                 <span class="btn-text-one">Administrar Repositorio</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('https://')">
-                <span class="btn-text-one">Manutenção</span>
+            <button class="btn" onclick="acessarPagina('teste.php')">
+                <span class="btn-text-one">teste</span>
                 <span class="btn-text-two">Manutenção</span>
             </button>
         </div>
         <div class="column">
-            <button class="btn" onclick="acessarPagina('repositorio-documento/upload_pdf.php')">
+            <button class="btn" onclick="acessarPagina('upload.php')">
                 <span class="btn-text-one">Upload Repositorio</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('')">
-                <span class="btn-text-one">Manutenção</span>
-                <span class="btn-text-two">Manutenção</span>
+            <button class="btn" onclick="acessarPagina('../registro.php')">
+                <span class="btn-text-one">Criação de usuario</span>
+                <span class="btn-text-two">Acesse</span>
             </button>
             <button class="btn" onclick="acessarPagina('https://')">
                 <span class="btn-text-one">Manutenção</span>

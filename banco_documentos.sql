@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `documento` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `documento`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: documento
@@ -139,9 +137,10 @@ CREATE TABLE `usuarios` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(45) NOT NULL,
+  `setor` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +149,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'lucas6510','$2y$10$XPbYNPxIgQ.y4IdF5Y0m6Oor4lxWOhvH2m8vFp7wM1gtsOFCZp.3W','Lucas Augusto Macias Silveira'),(2,'joabe7091','$2y$10$6HBl11mG4estnWlqECLMZeLklJC.9D9e7XUKlW.iWcoeMUpx6M1QK','JOABE TRINDADE SANTOS'),(3,'adaildo6541','$2y$10$thBG89Ut4ppYXR2dgebry.ckC0ARYGi76sTpyZmb3OgQAcR7MWf2q','ADAILDO BATISTA DE SANTANA');
+INSERT INTO `usuarios` VALUES (2,'joabe7091','$2y$10$6HBl11mG4estnWlqECLMZeLklJC.9D9e7XUKlW.iWcoeMUpx6M1QK','JOABE TRINDADE SANTOS','Tecnologia da Informação'),(3,'adaildo6541','$2y$10$thBG89Ut4ppYXR2dgebry.ckC0ARYGi76sTpyZmb3OgQAcR7MWf2q','ADAILDO BATISTA DE SANTANA',''),(4,'thiago7007','$2y$10$5R.e1fQzsm2KFM2Yr7q5DuE/iBh6VdFhnNjlX7hpEjSkHYrT4ZjGG','Thiago França',''),(5,'lucas6510','$2y$10$SBhrIBcu2fKi8.2dPyksYu10rBSgk2D3GhEo4anZv3VoQPxoYZx.G','Lucas Augusto Macias Silveira','Tecnologia da Informação');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -163,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-09 15:03:34
+-- Dump completed on 2024-09-09 19:04:58

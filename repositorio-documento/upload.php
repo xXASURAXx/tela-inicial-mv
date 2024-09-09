@@ -1,11 +1,22 @@
 <?php
+session_start();
+
+// Verifica se o usuário está logado e pertence ao setor de TI
+if (!isset($_SESSION['loggedin']) || $_SESSION['setor'] !== 'Tecnologia da Informação') {
+    // Redireciona para a página de login se não tiver acesso
+    header('Location: login.php');
+    exit;
+}
+
 include 'conexao.php';
+
+$usuario = $_SESSION['username'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome_documento = $_POST['nome_documento'];
     $sistema_documento = $_POST['sistema_documento'];
     $assunto_documento = $_POST['assunto_documento'];
-    $tabela = $_POST['tabela']; // Captura a tabela selecionada
+    $tabela = $_POST['tabela'];
 
     if (isset($_FILES['pdf_documento']) && $_FILES['pdf_documento']['error'] == 0) {
         $pdf_nome = $_FILES['pdf_documento']['name'];
@@ -17,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdf_conteudo = file_get_contents($pdf_temporario);
 
             try {
-                // Query dinâmica com base na tabela selecionada
                 $stmt = $pdo->prepare("INSERT INTO $tabela (nome_documento, sistema_documento, assunto_documento, pdf_documento) VALUES (:nome_documento, :sistema_documento, :assunto_documento, :pdf_documento)");
                 $stmt->bindParam(':nome_documento', $nome_documento);
                 $stmt->bindParam(':sistema_documento', $sistema_documento);
@@ -113,7 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="text" name="sistema_documento" class="input" placeholder="Sistema do Documento" required><br>
             <input type="text" name="assunto_documento" class="input" placeholder="Assunto do Documento" required><br>
 
-            <!-- Caixa flutuante para seleção da tabela -->
             <div class="floating-select">
                 <label for="tabela"></label>
                 <select name="tabela" id="tabela" class="input" required>
