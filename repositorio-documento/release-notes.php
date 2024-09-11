@@ -101,18 +101,39 @@ $documentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             );
             transition: all 0.475s;
         }
+        .home-button {
+            background-color: #4670A0;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .home-button:hover {
+            background-color: #4670A0;
+        }
 
     </style>
 </head>
 <body>
+
+    <a href="../index.php" class="home-button">Home</a>
+    
     <h1>Release Notes</h1>
 
     <?php if (!empty($documentos)): ?>
     <table>
         <tr>
-            <th>Nome do Documento</th>
-            <th>Sistema do Documento</th>
-            <th>Assunto do Documento</th>
+            <th>Título</th>
+            <th>Sistema</th>
+            <th>Conteúdo</th>
             <th>Ações</th>
         </tr>
         <?php foreach ($documentos as $documento): ?>

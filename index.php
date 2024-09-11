@@ -66,7 +66,7 @@ atualizar();
         .btn {
             width: 300px;  
             height: 70px;  
-            background: linear-gradient(to top, #00154c, #12376e, #23487f);
+            background: linear-gradient(to top, #4670A0, #4682B4, #4670A0);
             color: #fff;
             border-radius: 50px;
             border: none;
@@ -127,21 +127,21 @@ atualizar();
 
         <div class="button-container">
             <div class="column">
-                <button class="btn" onclick="acessarPagina('http://intranet')">
+                <button class="btn" onclick="acessarPagina('http://10.0.16.20', true)">
                     <span class="btn-text-one">Intranet</span>
                     <span class="btn-text-two">Acesse</span>
                 </button>
-                <button class="btn" onclick="acessarPagina('repositorio-documento/repositorio-mv.php')">
+                <button class="btn" onclick="acessarPagina('repositorio-documento/repositorio-mv.php', false)">
                     <span class="btn-text-one">Manuais MV</span>
                     <span class="btn-text-two">Acesse</span>
                 </button>
             </div>
             <div class="column">
-                <button class="btn" onclick="acessarPagina('repositorio-documento/repositorio-pop.php')">
+                <button class="btn" onclick="acessarPagina('repositorio-documento/repositorio-pop.php', false)">
                     <span class="btn-text-one">Repositorio Hospital</span>
                     <span class="btn-text-two">Acesse</span>
                 </button>
-                <button class="btn" onclick="acessarPagina('repositorio-documento/release-notes.php')">
+                <button class="btn" onclick="acessarPagina('repositorio-documento/release-notes.php', false)">
                     <span class="btn-text-one">Release Notes</span>
                     <span class="btn-text-two">Acesse</span>
                 </button>
@@ -150,12 +150,16 @@ atualizar();
     </div>
 
     <footer>
-        Desenvolvido por Lucas Silveira | Tecnologia da Informação - Hospital Geral de Itapevi
+        Tecnologia da Informação - Hospital Geral de Itapevi
     </footer>
 
     <script>
-        function acessarPagina(url) {
-            window.open(url, '_blank');
+        function acessarPagina(url, novaGuia) {
+            if (novaGuia) {
+                window.open(url, '_blank');
+            } else {
+                window.location.href = url;
+            }
         }
     </script>
 

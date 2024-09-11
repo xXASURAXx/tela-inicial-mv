@@ -43,4 +43,4 @@ Para contribuir com este projeto, faça um fork, crie uma branch e envie um pull
 
 DESENVOLVIDO
 
-Desenvolvido por Lucas Silveira com participação Joabe Santos, Leandro Cardoso, Thiago Santos e a Equipe de Tecnologia do Hospital Geral de Itapevi
+Desenvolvido por Lucas Silveira com participação Joabe Santos, Leandro Cardoso, Thiago Santos, Adaildo Santana e a Equipe de Tecnologia do Hospital Geral de Itapevi

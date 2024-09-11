@@ -35,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     $setor = $_POST['setor'];
     $responsavel = $_POST['responsavel'];
 
-    if (!empty($ramal_fixo) || !empty($ramal_movel) && !empty($andar) && !empty($setor) && !empty($responsavel)) {
+    if ((!empty($ramal_fixo) || !empty($ramal_movel)) && !empty($setor)) {
+
         if ($_POST['action'] == 'add') {
             $sql = "INSERT INTO ramais (fixo, movel, andar, setor, responsavel, usuario) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
@@ -141,7 +142,7 @@ $result = $stmt->get_result();
         </div>
         <div class="mb-3">
             <label for="andar" class="form-label">Andar</label>
-            <input type="text" class="form-control" id="andar" name="andar" value="<?php echo $editMode ? htmlspecialchars($editData['andar']) : ''; ?>" required>
+            <input type="text" class="form-control" id="andar" name="andar" value="<?php echo $editMode ? htmlspecialchars($editData['andar']) : ''; ?>">
         </div>
         <div class="mb-3">
             <label for="setor" class="form-label">Setor</label>
@@ -149,7 +150,8 @@ $result = $stmt->get_result();
         </div>
         <div class="mb-3">
             <label for="responsavel" class="form-label">Responsável</label>
-            <input type="text" class="form-control" id="responsavel" name="responsavel" value="<?php echo $editMode ? htmlspecialchars($editData['responsavel']) : ''; ?>" required>
+            <input type="text" class="form-control" id="responsavel" name="responsavel" value="<?php echo $editMode ? htmlspecialchars($editData['responsavel']) : ''; ?>">
+
         </div>
         
         <button type="submit" class="btn btn-primary"><?php echo $editMode ? 'Atualizar' : 'Adicionar'; ?></button>
