@@ -150,6 +150,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           font-size: 9px;
         }
 
+        .home-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
         .message {
           text-align: center;
           color: red;
@@ -158,6 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
+
+  <a href="repositorio-documento/adm.php" class="home-button">Home</a>
+
     <div class="container">
         <div class="heading">Registro de Usuário</div>
         <form method="POST" action="registro.php" class="form">

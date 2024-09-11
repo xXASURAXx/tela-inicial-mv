@@ -120,31 +120,20 @@ atualizar();
                 <span class="btn-text-one">Administrar Repositorio</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('teste.php')">
-                <span class="btn-text-one">teste</span>
-                <span class="btn-text-two">Manutenção</span>
-            </button>
-        </div>
-        <div class="column">
-            <button class="btn" onclick="acessarPagina('upload.php')">
-                <span class="btn-text-one">Upload Repositorio</span>
-                <span class="btn-text-two">Acesse</span>
-            </button>
             <button class="btn" onclick="acessarPagina('../registro.php')">
                 <span class="btn-text-one">Criação de usuario</span>
                 <span class="btn-text-two">Acesse</span>
             </button>
-            <button class="btn" onclick="acessarPagina('https://')">
-                <span class="btn-text-one">Manutenção</span>
-                <span class="btn-text-two">Manutenção</span>
-            </button>
+            
         </div>
+        
     </div>
+
 
     <script>
         function acessarPagina(url) {
         
-            window.open(url, '_blank');
+            window.location.href = url;
         }
     </script>
 
